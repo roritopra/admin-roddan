@@ -59,7 +59,7 @@ export function NewProductPage() {
             <input name="colors" type="text" />
             <input name="price" type="number" />
             <input name="description" type="text" />
-            <input name="image" type="file" accept="image/png, image/jpeg, image/JPG"  />
+            <input name="image" type="file" accept="image/png, image/jpeg, image/JPG" multiple />
             <input name="title" type="text" />
             <input name="versions" type="text" />
             <button>UPLOAD</button>
