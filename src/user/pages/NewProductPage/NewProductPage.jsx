@@ -14,10 +14,10 @@ export function NewProductPage() {
     const storage = getStorage();
 
     // Create a storage reference from our storage service
-    const storageRef = ref(storage, 'images/' + formData.image.name);
+    const storageRef = ref(storage, 'images/' + formData.cover.name);
 
     // Upload the file to the ref
-    const uploadTask = uploadBytesResumable(storageRef, formData.image);
+    const uploadTask = uploadBytesResumable(storageRef, formData.cover);
 
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on('state_changed',
@@ -36,7 +36,7 @@ export function NewProductPage() {
           console.log('File available at', downloadURL);
 
           // Add the URL to the form data
-          formData.image = downloadURL;
+          formData.cover = downloadURL;
 
           // Then add the document to Firestore
           addDoc(projectsCollection, formData)
@@ -59,7 +59,7 @@ export function NewProductPage() {
             <input name="colors" type="text" />
             <input name="price" type="number" />
             <input name="description" type="text" />
-            <input name="image" type="file" accept="image/png, image/jpeg, image/JPG" multiple />
+            <input name="cover" type="file" accept="image/png, image/jpeg, image/JPG" multiple />
             <input name="title" type="text" />
             <input name="versions" type="text" />
             <button>UPLOAD</button>
