@@ -2,14 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { menuLinks } from "./menuLinks";
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  Alert,
-} from "@material-tailwind/react";
+import { Card, Typography, List, Alert } from "@material-tailwind/react";
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
 export function NavBar() {
   const [openAlert, setOpenAlert] = useState(true);
@@ -23,17 +16,21 @@ export function NavBar() {
         <List className="font-poppins">
           {menuLinks.map((menu, index) => (
             <NavLink
-            key={index}
-            to={menu.url}
-            className={({ isActive }) => {
-              return `font-poppins flex items-center mb-2 p-3 rounded-xl ${
-                isActive ? "text-white bg-[#0081FE]" : "text-[#737791] hover:bg-[#D4EAFF]"
-              }`;
-            }}
-          >
-            <ListItemPrefix>{menu.icon}</ListItemPrefix>
-            {menu.text}
-          </NavLink>
+              key={index}
+              to={menu.url}
+              className={({ isActive }) => {
+                return `font-poppins flex items-center mb-2 p-3 rounded-xl transition-all ${
+                  isActive
+                    ? "text-white bg-[#0081FE] [&>div>svg]:stroke-white"
+                    : "text-[#737791] hover:bg-[#D4EAFF]"
+                }`;
+              }}
+            >
+              <div className="grid place-items-center mr-4">
+                {menu.icon}
+              </div>
+              {menu.text}
+            </NavLink>
           ))}
         </List>
         <Alert
