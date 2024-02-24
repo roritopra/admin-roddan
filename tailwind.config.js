@@ -14,6 +14,9 @@ module.exports = withMT({
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
+    },
   },
   darkMode: "class",
   plugins: [nextui()],
