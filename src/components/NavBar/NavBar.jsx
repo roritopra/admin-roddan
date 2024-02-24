@@ -1,15 +1,14 @@
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { menuLinks } from "./menuLinks";
-import { Card, Typography, List, Alert } from "@material-tailwind/react";
-import { CubeTransparentIcon } from "@heroicons/react/24/outline";
-export function NavBar() {
-  const [openAlert, setOpenAlert] = useState(true);
+import { Card, List } from "@material-tailwind/react";
+import { Button } from "@nextui-org/react";
+import './NavBar.css';
 
+export function NavBar() {
   return (
     <nav className="flex">
-      <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <Card className="h-full w-full max-w-[20rem] p-4 shadow-xl shadow-white">
         <div className="mb-5 flex items-center px-4">
           <img src="/icons/logo-navbar.png" alt="brand" />
         </div>
@@ -26,41 +25,23 @@ export function NavBar() {
                 }`;
               }}
             >
-              <div className="grid place-items-center mr-4">
-                {menu.icon}
-              </div>
+              <div className="grid place-items-center mr-4">{menu.icon}</div>
               {menu.text}
             </NavLink>
           ))}
         </List>
-        <Alert
-          open={openAlert}
-          className="mt-auto"
-          onClose={() => setOpenAlert(false)}
-        >
-          <CubeTransparentIcon className="mb-4 h-12 w-12" />
-          <Typography variant="h6" className="mb-1">
-            Upgrade to PRO
-          </Typography>
-          <Typography variant="small" className="font-normal opacity-80">
-            Upgrade to Material Tailwind PRO and get even more components,
-            plugins, advanced features and premium.
-          </Typography>
-          <div className="mt-4 flex gap-3">
-            <Typography
-              as="a"
-              href="#"
-              variant="small"
-              className="font-medium opacity-80"
-              onClick={() => setOpenAlert(false)}
-            >
-              Dismiss
-            </Typography>
-            <Typography as="a" href="#" variant="small" className="font-medium">
-              Upgrade Now
-            </Typography>
-          </div>
-        </Alert>
+        <section className="relative mt-40 flex flex-col items-center justify-center bg-gradient rounded-2xl p-10">
+          <img
+            className="absolute top-[-50px]"
+            src="icons/solo-logo.png"
+            alt="Brand"
+          />
+          <h2 className="font-poppins text-white font-semibold mb-5">Roddan</h2>
+          <p className="font-poppins text-white text-center px-6 mb-7">
+            Dont forget save the tasks when is completed
+          </p>
+          <Button className="bg-white text-[#0081FE] font-semibold font-poppins px-10">Button</Button>
+        </section>
       </Card>
       <Outlet />
     </nav>
