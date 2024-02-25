@@ -1,0 +1,3 @@
+.bg-gradient {
+background: var(--Linear-black, linear-gradient(99deg, #222 1.21%, #515151 99.17%, #222 99.17%));
+}
