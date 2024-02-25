@@ -30,7 +30,7 @@ export function NavBar() {
             </NavLink>
           ))}
         </List>
-        <section className="relative mt-40 flex flex-col items-center justify-center bg-gradient rounded-2xl p-10">
+        <section className="relative mt-36 flex flex-col items-center justify-center bg-gradient rounded-2xl p-10">
           <img
             className="absolute top-[-50px]"
             src="icons/solo-logo.png"
