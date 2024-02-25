@@ -48,6 +48,55 @@ const columns = [
       price: "399",
       status: "active",
     },
+    {
+      id: 6,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 7,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 8,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 9,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 10,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 11,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
+    {
+      id: 12,
+      product: "images/headphones.png",
+      name: "Sony WH-1000XM4",
+      price: "399",
+      status: "active",
+    },
   ];
   
   export {columns, users};

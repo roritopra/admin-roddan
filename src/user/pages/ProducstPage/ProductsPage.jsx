@@ -8,16 +8,29 @@ import {
   Switch,
   Tooltip,
   Image,
+  Pagination,
+  getKeyValue,
 } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { columns, users } from "../../../data/data";
-import { useCallback } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { Header } from "../../../components/Header/Header";
 
 export function ProductsPage() {
-  const renderCell = useCallback((user, columnKey) => {
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
+  const pages = Math.ceil(users.length / rowsPerPage);
+
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return users.slice(start, end);
+  }, [page, users]);
+
+  const getKeyValue = useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
@@ -30,13 +43,17 @@ export function ProductsPage() {
       case "name":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize font-poppins">{cellValue}</p>
+            <p className="text-bold text-sm capitalize font-poppins">
+              {cellValue}
+            </p>
           </div>
         );
       case "price":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize font-poppins">$ {cellValue}</p>
+            <p className="font-bold text-sm text-[#11181C] capitalize font-poppins">
+              $ {cellValue}
+            </p>
           </div>
         );
       case "status":
@@ -70,7 +87,21 @@ export function ProductsPage() {
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="Products" />
 
-      <Table>
+      <Table
+        bottomContent={
+          <div className="flex w-full justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="primary"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+            />
+          </div>
+        }
+      >
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
@@ -81,11 +112,11 @@ export function ProductsPage() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={users}>
+        <TableBody items={items}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
+                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
