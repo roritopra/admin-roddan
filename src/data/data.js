@@ -13,7 +13,7 @@ const columns = [
       team: "Management",
       status: "active",
       age: "29",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+      avatar: "images/headphones.png",
       email: "tony.reichert@example.com",
     },
     {
