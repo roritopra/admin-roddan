@@ -10,7 +10,7 @@ export function NavBar() {
     <nav className="flex">
       <Card className="h-full w-full max-w-[18rem] p-4 shadow-xl shadow-white">
         <div className="mb-5 flex items-center px-4">
-          <img src="/icons/logo-navbar.png" alt="brand" />
+          <img src="icons/logo-navbar.png" alt="brand" />
         </div>
         <List className="font-poppins">
           {menuLinks.map((menu, index) => (
