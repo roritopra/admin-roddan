@@ -6,9 +6,9 @@ import "./DashboardPage.css";
 
 export function DashboardPage() {
   return (
-    <main className="flex flex-col w-full p-6 bg-[#F9FAFB]">
+    <main className="flex flex-col w-full px-6 bg-[#F9FAFB]">
       <Header pageName="Dashboard" />
-      <h1 className="font-poppins text-xl text-[#151D48] mb-10">
+      <h1 className="font-poppins text-3xl text-[#151D48] mb-10">
         Hello, <span className="font-semibold">Daniel Caicedo</span>
       </h1>
 
