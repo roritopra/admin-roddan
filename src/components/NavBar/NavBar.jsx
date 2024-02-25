@@ -8,7 +8,7 @@ import './NavBar.css';
 export function NavBar() {
   return (
     <nav className="flex">
-      <Card className="h-full w-full max-w-[20rem] p-4 shadow-xl shadow-white">
+      <Card className="h-full w-full max-w-[18rem] p-4 shadow-xl shadow-white">
         <div className="mb-5 flex items-center px-4">
           <img src="/icons/logo-navbar.png" alt="brand" />
         </div>
@@ -36,11 +36,11 @@ export function NavBar() {
             src="icons/solo-logo.png"
             alt="Brand"
           />
-          <h2 className="font-poppins text-white font-semibold mb-5">Roddan</h2>
-          <p className="font-poppins text-white text-center px-6 mb-7">
+          <h2 className="font-poppins text-white font-semibold mb-5 text-xl">Roddan</h2>
+          <p className="font-poppins text-white text-center px-4 mb-7 text-sm">
             Dont forget save the tasks when is completed
           </p>
-          <Button className="bg-white text-[#0081FE] font-semibold font-poppins px-10">Button</Button>
+          <Button className="bg-white text-[#0081FE] font-semibold font-poppins px-10 text-lg">Orders</Button>
         </section>
       </Card>
       <Outlet />
