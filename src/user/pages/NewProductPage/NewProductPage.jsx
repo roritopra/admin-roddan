@@ -6,6 +6,10 @@ import {
 } from "firebase/storage";
 import { database } from "../../../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { Header } from "../../../components/Header/Header";
+import { Button } from "@nextui-org/react";
+import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
+import { NavLink } from "react-router-dom";
 
 export function NewProductPage() {
   async function handleUpload(e) {
@@ -40,9 +44,33 @@ export function NewProductPage() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleUpload} action="">
-        <select name="category" id="">
+    <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
+      <Header pageName="New Product" />
+      <NavLink to={"/products"} className="flex items-center gap-3">
+        <Button
+          isIconOnly
+          aria-label="Back"
+          variant="bordered"
+          className="p-2 border-[#D0D0D0]"
+        >
+          <ArrowLongLeftIcon />
+        </Button>
+        <div className="font-poppins">
+          <span className="text-[#7A7A7A] text-sm">Back to products</span>
+          <p className="text-[#151D48] font-semibold text-xl">
+            Add New Product
+          </p>
+        </div>
+      </NavLink>
+
+      <form onSubmit={handleUpload} className="flex" action="">
+        <section className="w-1/2">
+          <div>
+            <input name="title" type="text" />
+            <input name="description" type="text" />
+          </div>
+
+          <select name="category" id="">
           <option value="Laptops">Laptops</option>
           <option value="Speakers">Speakers</option>
           <option value="Consoles">Consoles</option>
@@ -50,19 +78,29 @@ export function NewProductPage() {
           <option value="Tablets">Tablets</option>
           <option value="Smartphones">Smartphones</option>
         </select>
-        <input name="colors" type="text" />
-        <input name="price" type="number" />
-        <input name="description" type="text" />
+        
+        <input name="inventory" type="text" />
+        </section>
+
+        <section className="w-1/2">
         <input
           name="cover"
           type="file"
           accept="image/png, image/jpeg, image/JPG"
           multiple
         />
-        <input name="title" type="text" />
-        <input name="versions" type="text" />
+
+<input name="versions" type="text" />
+<input name="colors" type="text" />
+<input name="price" type="number" />
+
+        </section>
+        
+
+
+
         <button>UPLOAD</button>
       </form>
-    </div>
+    </main>
   );
 }

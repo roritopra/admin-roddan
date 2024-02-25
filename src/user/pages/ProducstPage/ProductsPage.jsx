@@ -9,13 +9,16 @@ import {
   Tooltip,
   Image,
   Pagination,
+  Button,
   getKeyValue,
 } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
+import { PlusIcon } from "./PlusIcon";
 import { columns, users } from "../../../data/data";
 import { useCallback, useState, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 
 export function ProductsPage() {
@@ -61,17 +64,21 @@ export function ProductsPage() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
+            <Tooltip className="font-poppins" content="Details">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EyeIcon />
               </span>
             </Tooltip>
-            <Tooltip content="Edit product">
+            <Tooltip className="font-poppins" content="Edit product">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color="danger" content="Delete product">
+            <Tooltip
+              className="font-poppins"
+              color="danger"
+              content="Delete product"
+            >
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <DeleteIcon />
               </span>
@@ -87,10 +94,24 @@ export function ProductsPage() {
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="Products" />
 
+      <div>
+        <NavLink to={"new-product"}>
+        <Button
+          className="bg-[#0081FE] mb-6 font-poppins text-white"
+          endContent={<PlusIcon />}
+        >
+          Add New Product	
+        </Button>
+        </NavLink>
+      </div>
+      
+
       <Table
+        aria-label="Products table"
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination
+              className="font-poppins"
               isCompact
               showControls
               showShadow
@@ -105,6 +126,7 @@ export function ProductsPage() {
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
+              className="font-poppins"
               key={column.uid}
               align={column.uid === "actions" ? "center" : "start"}
             >
