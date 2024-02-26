@@ -33,7 +33,7 @@ export function NavBar() {
         <section className="relative mt-36 flex flex-col items-center justify-center bg-gradient rounded-2xl p-10">
           <img
             className="absolute top-[-50px]"
-            src="icons/solo-logo.png"
+            src="/icons/solo-logo.png"
             alt="Brand"
           />
           <h2 className="font-poppins text-white font-semibold mb-5 text-xl">Roddan</h2>
