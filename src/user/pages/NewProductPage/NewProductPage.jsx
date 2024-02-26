@@ -108,7 +108,7 @@ export function NewProductPage() {
                 isRequired
                 type="text"
                 variant="bordered"
-                label="Website"
+                label="Product name"
                 placeholder="Enter the name of the product"
                 labelPlacement="outside"
                 className="font-poppins"

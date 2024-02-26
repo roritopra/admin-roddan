@@ -10,40 +10,56 @@ import {
   Image,
   Pagination,
   Button,
-  getKeyValue,
 } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
-import { columns, users } from "../../../data/data";
-import { useCallback, useState, useMemo } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { database } from "../../../firebase/firebase";
+import { columns } from "../../../data/data";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 
 export function ProductsPage() {
+  const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const pages = Math.ceil(products.length / rowsPerPage);
+
+  useEffect(() => {
+    (async () => {
+      const productsCollection = collection(database, "products");
+      const productsSnapshot = await getDocs(productsCollection);
+      const productsList = [];
+      productsSnapshot.forEach((project) => {
+        productsList.push({ key: project.id, ...project.data() });
+      });
+      setProducts(productsList);
+    })();
+  }, []);
+
+  console.log(products);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return users.slice(start, end);
-  }, [page, users]);
+    return products.slice(start, end);
+  }, [page, products]);
 
-  const getKeyValue = useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell  = useCallback((product, columnKey) => {
+    const cellValue = product[columnKey];
 
     switch (columnKey) {
       case "product":
         return (
           <div>
-            <Image width={35} alt="Image" src={user.product} />
+            <Image width={35} alt="Image" src={product.cover} />
           </div>
         );
-      case "name":
+      case "title":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize font-poppins">
@@ -54,7 +70,7 @@ export function ProductsPage() {
       case "price":
         return (
           <div className="flex flex-col">
-            <p className="font-bold text-sm text-[#11181C] capitalize font-poppins">
+            <p className="font-semibold text-sm text-[#11181C] capitalize font-poppins">
               $ {cellValue}
             </p>
           </div>
@@ -138,7 +154,7 @@ export function ProductsPage() {
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
-                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                <TableCell>{renderCell (item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
