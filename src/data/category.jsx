@@ -24,4 +24,9 @@ export const category = [
     value: "smartphones",
     description: "A mobile device that combines cellular and mobile computing functions",
   },
+  {
+    label: "Tablets",
+    value: "tablets",
+    description: "A mobile computer with a touchscreen display",
+  }
 ];

@@ -25,7 +25,7 @@ import { Header } from "../../../components/Header/Header";
 export function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
+  const rowsPerPage = 8;
   const pages = Math.ceil(products.length / rowsPerPage);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export function ProductsPage() {
       case "product":
         return (
           <div>
-            <Image width={35} alt="Image" src={product.cover} />
+            <Image width={35} radius="none" alt="Image" src={product.cover} />
           </div>
         );
       case "title":
@@ -120,8 +120,7 @@ export function ProductsPage() {
         </Button>
         </NavLink>
       </div>
-      
-
+    
       <Table
         aria-label="Products table"
         bottomContent={
