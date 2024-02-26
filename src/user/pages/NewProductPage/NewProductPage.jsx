@@ -11,14 +11,29 @@ import { Button, Input, Textarea, Select, SelectItem } from "@nextui-org/react";
 import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
 import { NavLink } from "react-router-dom";
 import { category } from "../../../data/category";
+import { useState } from "react";
+import { Modal } from "../../../components/Modal/Modal";
 
 export function NewProductPage() {
+  const [showMessage, setShowMessage] = useState(false);
+
   async function handleUpload(e) {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
     const projectsCollection = collection(database, "products");
-    formData.versions = formData.versions.split(",");
     formData.colors = formData.colors.split(",");
+    if (window.confirm("Are you sure you want to the product?")) {
+      console.log(formData);
+    } else { 
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to the product?")) {
+      setShowMessage(true);
+      console.log(formData);
+    } else { 
+      return;
+    }
 
     const storage = getStorage();
     const storageRef = ref(storage, "images/" + formData.cover.name);
@@ -43,10 +58,27 @@ export function NewProductPage() {
       }
     );
   }
+  
 
   return (
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="New Product" />
+      <Modal show={showMessage} onClose={() => setShowMessage(false)}>
+        <div className="flex flex-col items-center justify-center p-6">
+        <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          Product added successfully
+        </h1>
+        <NavLink to={"/products"}>
+          <Button
+            className="bg-[#0081FE] font-poppins text-white font-medium"
+            size="lg"
+            endContent={<ArrowLongLeftIcon />}
+          >
+            Check it
+          </Button>
+        </NavLink>
+        </div>
+      </Modal>
       <NavLink to={"/products"} className="flex items-center gap-3 mb-10">
         <Button
           isIconOnly
@@ -73,6 +105,7 @@ export function NewProductPage() {
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
               <Input
                 name="title"
+                isRequired
                 type="text"
                 variant="bordered"
                 label="Website"
@@ -82,6 +115,7 @@ export function NewProductPage() {
               />
               <Textarea
                 variant="bordered"
+                isRequired
                 name="description"
                 labelPlacement="outside"
                 label="Description"
@@ -98,6 +132,7 @@ export function NewProductPage() {
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
               <Select
                 label="Product Category"
+                isRequired
                 name="category"
                 placeholder="Select a category"
                 labelPlacement="outside"
@@ -119,6 +154,7 @@ export function NewProductPage() {
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
               <Input
                 type="number"
+                isRequired
                 label="Quantity"
                 placeholder="#items available in stock"
                 className="font-poppins"
@@ -131,11 +167,12 @@ export function NewProductPage() {
 
           <article className="mb-10">
             <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
-              Price
+              Pricing
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
               <Input
                 type="number"
+                isRequired
                 label="Price per item"
                 name="price"
                 labelPlacement="outside"
@@ -145,6 +182,23 @@ export function NewProductPage() {
                     <span className="text-default-400 text-small">$</span>
                   </div>
                 }
+              />
+            </div>
+          </article>
+
+          <article className="mb-10">
+            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              Versions
+            </h6>
+            <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
+              <Input
+                type="text"
+                isRequired
+                label="Colors"
+                name="colors"
+                placeholder="Red, Blue, Black, White"
+                labelPlacement="outside"
+                variant="bordered"
               />
             </div>
           </article>
@@ -178,10 +232,10 @@ export function NewProductPage() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or
+                      <span className="font-semibold font-poppins">Click to upload</span> or
                       drag and drop
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs font-poppins text-gray-500 dark:text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>
@@ -205,6 +259,7 @@ export function NewProductPage() {
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
               <Input
                 type="number"
+                isRequired
                 label="Items Weight"
                 name="weight"
                 labelPlacement="outside"
@@ -222,6 +277,7 @@ export function NewProductPage() {
               <div className="mt-10">
                 <Input
                   type="number"
+                  isRequired
                   label="Length"
                   name="length"
                   labelPlacement="outside"
@@ -234,40 +290,40 @@ export function NewProductPage() {
                 />
               </div>
               <div className="mt-10">
-              <Input
-                type="number"
-                label="Breadth"
-                name="breadth"
-                labelPlacement="outside"
-                variant="bordered"
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-default-400 text-small">cm</span>
-                  </div>
-                }
-              />
+                <Input
+                  type="number"
+                  isRequired
+                  label="Breadth"
+                  name="breadth"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  startContent={
+                    <div className="pointer-events-none flex items-center">
+                      <span className="text-default-400 text-small">cm</span>
+                    </div>
+                  }
+                />
               </div>
               <div className="mt-10">
-              <Input
-                type="number"
-                label="Width"
-                name="width"
-                labelPlacement="outside"
-                variant="bordered"
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-default-400 text-small">Kg</span>
-                  </div>
-                }
-              />
+                <Input
+                  type="number"
+                  isRequired
+                  label="Width"
+                  name="width"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  startContent={
+                    <div className="pointer-events-none flex items-center">
+                      <span className="text-default-400 text-small">cm</span>
+                    </div>
+                  }
+                />
               </div>
             </div>
           </article>
-
-          <input name="versions" type="text" />
-          <input name="colors" type="text" />
-          <input name="price" type="number" />
-          <button>UPLOAD</button>
+          <div className="flex justify-center items">
+            <button className="font-poppins px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">Add product</button>
+          </div>
         </section>
       </form>
     </main>
