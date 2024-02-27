@@ -24,6 +24,7 @@ export function NewProductPage() {
     formData.colors = formData.colors.split(",");
 
     if (window.confirm("Are you sure you want to the product?")) {
+      setShowMessage(true);
       console.log(formData);
     } else { 
       return;
