@@ -17,7 +17,7 @@ import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "../../../firebase/firebase";
-import { columns } from "../../../data/data";
+import { columns } from "../../../data/columns";
 import { useCallback, useState, useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
@@ -76,7 +76,7 @@ export function ProductsPage() {
           </div>
         );
       case "status":
-        return <Switch />;
+        return <Switch defaultSelected aria-label="Status" />;
       case "actions":
         return (
           <div className="relative flex items-center gap-2">

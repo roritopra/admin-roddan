@@ -22,14 +22,8 @@ export function NewProductPage() {
     const formData = Object.fromEntries(new FormData(e.target));
     const projectsCollection = collection(database, "products");
     formData.colors = formData.colors.split(",");
-    if (window.confirm("Are you sure you want to the product?")) {
-      console.log(formData);
-    } else { 
-      return;
-    }
 
     if (window.confirm("Are you sure you want to the product?")) {
-      setShowMessage(true);
       console.log(formData);
     } else { 
       return;
