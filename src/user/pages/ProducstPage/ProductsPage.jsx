@@ -12,6 +12,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
+import { ArrowLongLeftIcon } from "../NewProductPage/ArrowLongLeftIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
@@ -21,8 +22,10 @@ import { columns } from "../../../data/columns";
 import { useCallback, useState, useMemo, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
+import { Modal } from "../../../components/Modal/Modal";
 
 export function ProductsPage() {
+  const [isDeleted, setIsDeleted] = useState(false);
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const rowsPerPage = 8;
@@ -43,8 +46,9 @@ export function ProductsPage() {
   const deleteProduct = async (productId) => {
     const productRef = doc(database, "products", productId);
     await deleteDoc(productRef);
+    setIsDeleted(true);
   };
-
+  
   console.log(products);
 
   const items = useMemo(() => {
@@ -116,6 +120,24 @@ export function ProductsPage() {
   return (
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="Products" />
+
+      <Modal show={isDeleted} onClose={() => setIsDeleted(false)}>
+        <div className="flex flex-col items-center justify-center p-6">
+        <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          Product Deleted
+        </h1>
+        <NavLink to={"/products"}>
+          <Button
+            className="bg-[#0081FE] font-poppins text-white font-medium"
+            size="lg"
+            endContent={<ArrowLongLeftIcon />}
+          >
+            Check it
+          </Button>
+        </NavLink>
+        </div>
+      </Modal>
+
 
       <div>
         <NavLink to={"new-product"}>
