@@ -7,7 +7,6 @@ import { ProductsPage } from "./user/pages/ProducstPage/ProductsPage"
 import { UsersPage } from "./user/pages/UsersPage/UsersPage"
 import { NavBar } from "./components/NavBar/NavBar"
 import { PageNotFound } from "./user/pages/PageNotFound/PageNotFound"
-import { ProductDetailPage } from "./user/pages/ProductsDetailsPage/ProductsDetailsPage"
 
 export function AppRouter() {
   return (
@@ -16,7 +15,6 @@ export function AppRouter() {
         <Route path="/" element={<NavBar />} >
           <Route index element={<DashboardPage />} />
           <Route path="/products/new-product" element={<NewProductPage />} />
-          <Route path="/products/:productId" element={<ProductDetailPage />} />
           <Route path="/admins" element={<AdminsPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/products" element={<ProductsPage />} />
