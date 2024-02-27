@@ -211,7 +211,7 @@ export function ProductsPage() {
                   Product Color
                 </p>
                 <p className="font-poppins text-[#151D48] text-lg font-normal">
-                  {selectedProduct?.colors.join(", ")}
+                  {selectedProduct?.colors}
                 </p>
               </div>
             </div>
