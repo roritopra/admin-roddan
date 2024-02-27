@@ -27,7 +27,7 @@ export function ProductDetailPage() {
 
   return (
     <div>
-      <h1>{product.name}</h1>
+      <h1>{product.title}</h1>
       <p>{product.description}</p>
       {/* other product details */}
     </div>

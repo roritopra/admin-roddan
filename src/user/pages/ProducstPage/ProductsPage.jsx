@@ -15,11 +15,11 @@ import { EditIcon } from "./EditIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { database } from "../../../firebase/firebase";
 import { columns } from "../../../data/columns";
 import { useCallback, useState, useMemo, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 
 export function ProductsPage() {
@@ -40,6 +40,11 @@ export function ProductsPage() {
     })();
   }, []);
 
+  const deleteProduct = async (productId) => {
+    const productRef = doc(database, "products", productId);
+    await deleteDoc(productRef);
+  };
+
   console.log(products);
 
   const items = useMemo(() => {
@@ -49,7 +54,7 @@ export function ProductsPage() {
     return products.slice(start, end);
   }, [page, products]);
 
-  const renderCell  = useCallback((product, columnKey) => {
+  const renderCell = useCallback((product, columnKey) => {
     const cellValue = product[columnKey];
 
     switch (columnKey) {
@@ -80,11 +85,13 @@ export function ProductsPage() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip className="font-poppins" content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EyeIcon />
-              </span>
-            </Tooltip>
+            <Link to={`/products/${product.key}`}>
+              <Tooltip className="font-poppins" content="Details">
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <EyeIcon />
+                </span>
+              </Tooltip>
+            </Link>
             <Tooltip className="font-poppins" content="Edit product">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
@@ -95,7 +102,7 @@ export function ProductsPage() {
               color="danger"
               content="Delete product"
             >
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
+              <span onClick={() => deleteProduct(product.key)} className="text-lg text-danger cursor-pointer active:opacity-50">
                 <DeleteIcon />
               </span>
             </Tooltip>
@@ -112,15 +119,15 @@ export function ProductsPage() {
 
       <div>
         <NavLink to={"new-product"}>
-        <Button
-          className="bg-[#0081FE] mb-6 font-poppins text-white"
-          endContent={<PlusIcon />}
-        >
-          Add New Product	
-        </Button>
+          <Button
+            className="bg-[#0081FE] mb-6 font-poppins text-white"
+            endContent={<PlusIcon />}
+          >
+            Add New Product
+          </Button>
         </NavLink>
       </div>
-    
+
       <Table
         aria-label="Products table"
         bottomContent={
@@ -153,7 +160,7 @@ export function ProductsPage() {
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
-                <TableCell>{renderCell (item, columnKey)}</TableCell>
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
