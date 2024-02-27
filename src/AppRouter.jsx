@@ -6,10 +6,12 @@ import { OrdersPage } from "./user/pages/OrdersPage/OrdersPage"
 import { ProductsPage } from "./user/pages/ProducstPage/ProductsPage"
 import { UsersPage } from "./user/pages/UsersPage/UsersPage"
 import { NavBar } from "./components/NavBar/NavBar"
+import { PageNotFound } from "./user/pages/PageNotFound/PageNotFound"
 
 export function AppRouter() {
   return (
     <Routes>
+        <Route path="/*" element={<PageNotFound />} />
         <Route path="/" element={<NavBar />} >
           <Route index element={<DashboardPage />} />
           <Route path="/products/new-product" element={<NewProductPage />} />

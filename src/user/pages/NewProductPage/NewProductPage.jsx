@@ -7,7 +7,14 @@ import {
 import { database } from "../../../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { Header } from "../../../components/Header/Header";
-import { Button, Input, Textarea, Select, SelectItem } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Textarea,
+  Select,
+  SelectItem,
+  Image,
+} from "@nextui-org/react";
 import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
 import { NavLink } from "react-router-dom";
 import { category } from "../../../data/category";
@@ -16,22 +23,33 @@ import { Modal } from "../../../components/Modal/Modal";
 
 export function NewProductPage() {
   const [showMessage, setShowMessage] = useState(false);
+  const [imageURLs, setImageURLs] = useState([]);
+
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    if (files) {
+      const urls = [];
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          urls.push(reader.result);
+          setImageURLs(urls);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    }
+  };
 
   async function handleUpload(e) {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
     const projectsCollection = collection(database, "products");
     formData.colors = formData.colors.split(",");
-    if (window.confirm("Are you sure you want to the product?")) {
-      console.log(formData);
-    } else { 
-      return;
-    }
 
     if (window.confirm("Are you sure you want to the product?")) {
       setShowMessage(true);
       console.log(formData);
-    } else { 
+    } else {
       return;
     }
 
@@ -58,25 +76,24 @@ export function NewProductPage() {
       }
     );
   }
-  
 
   return (
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="New Product" />
       <Modal show={showMessage} onClose={() => setShowMessage(false)}>
         <div className="flex flex-col items-center justify-center p-6">
-        <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
-          Product added successfully
-        </h1>
-        <NavLink to={"/products"}>
-          <Button
-            className="bg-[#0081FE] font-poppins text-white font-medium"
-            size="lg"
-            endContent={<ArrowLongLeftIcon />}
-          >
-            Check it
-          </Button>
-        </NavLink>
+          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+            Product added successfully
+          </h1>
+          <NavLink to={"/products"}>
+            <Button
+              className="bg-[#0081FE] font-poppins text-white font-medium"
+              size="lg"
+              endContent={<ArrowLongLeftIcon />}
+            >
+              Check it
+            </Button>
+          </NavLink>
         </div>
       </Modal>
       <NavLink to={"/products"} className="flex items-center gap-3 mb-10">
@@ -205,7 +222,7 @@ export function NewProductPage() {
         </section>
 
         <section className="w-1/2">
-          <article className="mb-10">
+          <article>
             <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
               Product images
             </h6>
@@ -232,14 +249,17 @@ export function NewProductPage() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold font-poppins">Click to upload</span> or
-                      drag and drop
+                      <span className="font-semibold font-poppins">
+                        Click to upload
+                      </span>{" "}
+                      or drag and drop
                     </p>
                     <p className="text-xs font-poppins text-gray-500 dark:text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>
                   <input
+                    onChange={handleImageChange}
                     name="cover"
                     accept="image/png, image/jpeg, image/JPG"
                     multiple
@@ -251,6 +271,12 @@ export function NewProductPage() {
               </div>
             </div>
           </article>
+
+          <div className="grid grid-cols-2 place-items-center my-10">
+            {imageURLs.map((url, index) => (
+              <Image width={100} key={index} src={url} alt="Preview" />
+            ))}
+          </div>
 
           <article className="mb-10">
             <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
@@ -322,7 +348,9 @@ export function NewProductPage() {
             </div>
           </article>
           <div className="flex justify-center items">
-            <button className="font-poppins px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">Add product</button>
+            <button className="font-poppins px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">
+              Add product
+            </button>
           </div>
         </section>
       </form>

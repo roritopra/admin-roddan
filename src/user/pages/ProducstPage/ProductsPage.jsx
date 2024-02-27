@@ -12,21 +12,35 @@ import {
   Button,
 } from "@nextui-org/react";
 import { EditIcon } from "./EditIcon";
+import { ArrowLongLeftIcon } from "../NewProductPage/ArrowLongLeftIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { database } from "../../../firebase/firebase";
-import { columns } from "../../../data/data";
+import { columns } from "../../../data/columns";
 import { useCallback, useState, useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
+import { Modal } from "../../../components/Modal/Modal";
 
 export function ProductsPage() {
+  const [showDetailsList, setShowDetailsList] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isDeleted, setIsDeleted] = useState(false);
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
+  const rowsPerPage = 8;
   const pages = Math.ceil(products.length / rowsPerPage);
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    showProductsDetails();
+  };
+
+  const showProductsDetails = () => {
+    setShowDetailsList(!showDetailsList);
+  };
 
   useEffect(() => {
     (async () => {
@@ -40,6 +54,12 @@ export function ProductsPage() {
     })();
   }, []);
 
+  const deleteProduct = async (productId) => {
+    const productRef = doc(database, "products", productId);
+    await deleteDoc(productRef);
+    setIsDeleted(true);
+  };
+
   console.log(products);
 
   const items = useMemo(() => {
@@ -49,14 +69,14 @@ export function ProductsPage() {
     return products.slice(start, end);
   }, [page, products]);
 
-  const renderCell  = useCallback((product, columnKey) => {
+  const renderCell = useCallback((product, columnKey) => {
     const cellValue = product[columnKey];
 
     switch (columnKey) {
       case "product":
         return (
           <div>
-            <Image width={35} alt="Image" src={product.cover} />
+            <Image width={35} radius="none" alt="Image" src={product.cover} />
           </div>
         );
       case "title":
@@ -76,12 +96,15 @@ export function ProductsPage() {
           </div>
         );
       case "status":
-        return <Switch />;
+        return <Switch defaultSelected aria-label="Status" />;
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
             <Tooltip className="font-poppins" content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+              <span
+                onClick={() => handleProductClick(product)}
+                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+              >
                 <EyeIcon />
               </span>
             </Tooltip>
@@ -95,7 +118,10 @@ export function ProductsPage() {
               color="danger"
               content="Delete product"
             >
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
+              <span
+                onClick={() => deleteProduct(product.key)}
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+              >
                 <DeleteIcon />
               </span>
             </Tooltip>
@@ -110,17 +136,97 @@ export function ProductsPage() {
     <main className="flex flex-col w-full h-full px-6 bg-[#F9FAFB]">
       <Header pageName="Products" />
 
+      <Modal
+        key={selectedProduct?.key}
+        show={isDeleted}
+        onClose={() => setIsDeleted(false)}
+      >
+        <div className="flex flex-col items-center justify-center p-6">
+          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+            Product Deleted
+          </h1>
+          <NavLink to={"/products"}>
+            <Button
+              className="bg-[#0081FE] font-poppins text-white font-medium"
+              size="lg"
+              endContent={<ArrowLongLeftIcon />}
+            >
+              Check it
+            </Button>
+          </NavLink>
+        </div>
+      </Modal>
+
+      <Modal
+        key={products.key}
+        show={showDetailsList}
+        onClose={showProductsDetails}
+      >
+        <div className="flex flex-col items-center justify-center p-6">
+          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+            Product Details
+          </h1>
+          <div className="flex flex-col w-full gap-4">
+            <div className="flex flex-col w-full gap-4">
+              <div className="flex flex-col w-full gap-2">
+                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                  Product Name
+                </p>
+                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                  {selectedProduct?.title}
+                </p>
+              </div>
+              <div className="flex flex-col w-full gap-2">
+                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                  Product Price
+                </p>
+                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                  ${selectedProduct?.price}
+                </p>
+              </div>
+              <div className="flex flex-col w-full gap-2">
+                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                  Product Description
+                </p>
+                <p className="font-poppins text-[#151D48] text-lg max-w-sm font-normal">
+                  {selectedProduct?.description === null
+                    ? "No description"
+                    : selectedProduct?.description.length > 50
+                    ? selectedProduct?.description.substring(0, 50) + "..."
+                    : selectedProduct?.description}
+                </p>
+              </div>
+              <div className="flex flex-col w-full gap-2">
+                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                  Product Category
+                </p>
+                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                  {selectedProduct?.category}
+                </p>
+              </div>
+              <div className="flex flex-col w-full gap-2">
+                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                  Product Color
+                </p>
+                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                  {selectedProduct?.colors.join(", ")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
       <div>
         <NavLink to={"new-product"}>
-        <Button
-          className="bg-[#0081FE] mb-6 font-poppins text-white"
-          endContent={<PlusIcon />}
-        >
-          Add New Product	
-        </Button>
+          <Button
+            className="bg-[#0081FE] mb-6 font-poppins text-white"
+            endContent={<PlusIcon />}
+          >
+            Add New Product
+          </Button>
         </NavLink>
       </div>
-      
 
       <Table
         aria-label="Products table"
@@ -154,7 +260,7 @@ export function ProductsPage() {
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
-                <TableCell>{renderCell (item, columnKey)}</TableCell>
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
