@@ -57,7 +57,11 @@ export function ProductsPage() {
   const deleteProduct = async (productId) => {
     const productRef = doc(database, "products", productId);
     await deleteDoc(productRef);
-    setIsDeleted(true);
+    if (window.confirm("Are you sure you want delete the product?")) {
+      setIsDeleted(true);
+    } else {
+      return;
+    }
   };
 
   console.log(products);
@@ -109,7 +113,7 @@ export function ProductsPage() {
               </span>
             </Tooltip>
             <Tooltip className="font-poppins" content="Edit product">
-            <Link to={`/edit-product/${product.key}`}>
+            <Link to={`/products/edit-product/${product.key}`}>
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
               </span>
