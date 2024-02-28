@@ -20,7 +20,7 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { database } from "../../../firebase/firebase";
 import { columns } from "../../../data/columns";
 import { useCallback, useState, useMemo, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 import { Modal } from "../../../components/Modal/Modal";
 
@@ -57,7 +57,11 @@ export function ProductsPage() {
   const deleteProduct = async (productId) => {
     const productRef = doc(database, "products", productId);
     await deleteDoc(productRef);
-    setIsDeleted(true);
+    if (window.confirm("Are you sure you want delete the product?")) {
+      setIsDeleted(true);
+    } else {
+      return;
+    }
   };
 
   console.log(products);
@@ -109,9 +113,11 @@ export function ProductsPage() {
               </span>
             </Tooltip>
             <Tooltip className="font-poppins" content="Edit product">
+            <Link to={`/products/edit-product/${product.key}`}>
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
               </span>
+            </Link>
             </Tooltip>
             <Tooltip
               className="font-poppins"
@@ -209,7 +215,7 @@ export function ProductsPage() {
                   Product Color
                 </p>
                 <p className="font-poppins text-[#151D48] text-lg font-normal">
-                  {selectedProduct?.colors.join(", ")}
+                  {selectedProduct?.colors}
                 </p>
               </div>
             </div>
