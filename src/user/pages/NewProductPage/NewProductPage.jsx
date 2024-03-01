@@ -42,11 +42,11 @@ export function NewProductPage() {
 
   async function handleUpload(e) {
     e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target));
+    const formData = new FormData(e.target);
     const projectsCollection = collection(database, "products");
-    formData.colors = formData.colors.split(",");
+    formData.set("colors", formData.get("colors").split(","));
 
-    if (window.confirm("Are you sure you want to the product?")) {
+    if (window.confirm("Are you sure you want to add this product?")) {
       setShowMessage(true);
       console.log(formData);
     } else {
@@ -54,27 +54,42 @@ export function NewProductPage() {
     }
 
     const storage = getStorage();
-    const storageRef = ref(storage, "images/" + formData.cover.name);
-    const uploadTask = uploadBytesResumable(storageRef, formData.cover);
+    const uploaded = Array.from({ length: formData.getAll('images').length });
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-      },
-      (error) => {
-        console.error(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          formData.cover = downloadURL;
+    formData.getAll("images").forEach((image, index) => {
+      const storageRef = ref(storage, "images" + image.name);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload image ${index + 1} is ${progress}% done`);
+        },
+        (error) => {
+          console.error(error);
+        },
+        async () => {
+          uploaded[index] = uploadTask.snapshot.ref;
 
-          addDoc(projectsCollection, formData);
-        });
-      }
-    );
+          if (!uploaded.some((value) => !value)) {
+            try {
+              console.log(uploaded);
+              const urls = await Promise.all(
+                uploaded.map((file) => getDownloadURL(file))
+              );
+
+              console.log("Files available at", urls.join(", "));
+              const data = Object.fromEntries(formData);
+              data.images = urls;
+              addDoc(projectsCollection, data);
+              console.log(data);
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        }
+      );
+    });
   }
 
   return (
@@ -260,7 +275,7 @@ export function NewProductPage() {
                   </div>
                   <input
                     onChange={handleImageChange}
-                    name="cover"
+                    name="images"
                     accept="image/png, image/jpeg, image/JPG"
                     multiple
                     id="dropzone-file"

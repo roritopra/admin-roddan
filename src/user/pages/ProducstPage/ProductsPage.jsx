@@ -80,7 +80,7 @@ export function ProductsPage() {
       case "product":
         return (
           <div>
-            <Image width={35} radius="none" alt="Image" src={product.cover} />
+            <Image width={35} radius="none" alt="Image" src={product.images[0]} />
           </div>
         );
       case "title":
