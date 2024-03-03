@@ -10,13 +10,13 @@ export function GoalsComponent({ name, description}) {
         src="icons/goals-icon.svg"
         alt="Today sale icon"
       />
-      <h3 className="font-poppins text-[#151D48] text-lg font-semibold">
+      <h3 className="font-satoshi text-[#151D48] text-lg font-semibold">
         {name}
       </h3>
-      <p className="font-poppins text-[#425166] text-sm mt-2">{description}</p>
+      <p className="font-satoshi text-[#425166] text-sm mt-2">{description}</p>
       <NavLink
         to={"/orders"}
-        className="font-poppins text-[#4079ED] text-sm mt-2 hover:text-[#456bb6]"
+        className="font-satoshi text-[#4079ED] text-sm mt-2 hover:text-[#456bb6]"
       >
         Orders
       </NavLink>

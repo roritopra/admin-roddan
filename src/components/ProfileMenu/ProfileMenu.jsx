@@ -37,7 +37,7 @@ export function ProfileMenu() {
                   alt="avatar"
                   variant="rounded"
                 />
-                <div className="font-poppins">
+                <div className="font-satoshi">
                   <h6 className="text-[12px] text-[#151D48] font-medium">
                     Daniel Caicedo
                   </h6>
@@ -54,7 +54,7 @@ export function ProfileMenu() {
               />
             </Button>
           </MenuHandler>
-          <MenuList className="p-1 font-poppins">
+          <MenuList className="p-1 font-satoshi">
             {profileMenuItems.map(({ label, icon }, key) => {
               const isLastItem = key === profileMenuItems.length - 1;
               return (

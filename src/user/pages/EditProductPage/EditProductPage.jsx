@@ -44,12 +44,12 @@ export function EditProductPage() {
         onClose={() => setShowConfirmMessage(false)}
       >
         <div className="flex flex-col items-center justify-center p-6">
-          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          <h1 className="font-satoshi text-[#151D48] text-2xl font-semibold mb-8">
             Product Updated
           </h1>
           <NavLink to={"/products"}>
             <Button
-              className="bg-[#0081FE] font-poppins text-white font-medium"
+              className="bg-[#0081FE] font-satoshi text-white font-medium"
               size="lg"
               endContent={<ArrowLongLeftIcon />}
             >
@@ -67,7 +67,7 @@ export function EditProductPage() {
         >
           <ArrowLongLeftIcon />
         </Button>
-        <div className="font-poppins">
+        <div className="font-satoshi">
           <span className="text-[#7A7A7A] text-sm">Back to products</span>
           <p className="text-[#151D48] font-semibold text-xl">
             Add New Product
@@ -79,7 +79,7 @@ export function EditProductPage() {
         <form onSubmit={handleSubmit} className="flex gap-5" action="">
           <section className="w-1/2">
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Description
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -94,7 +94,7 @@ export function EditProductPage() {
                   label="Product name"
                   placeholder="Enter the name of the product"
                   labelPlacement="outside"
-                  className="font-poppins"
+                  className="font-satoshi"
                 />
                 <Textarea
                   variant="bordered"
@@ -106,13 +106,13 @@ export function EditProductPage() {
                   }
                   label="Description"
                   placeholder="Enter your description"
-                  className="mt-7 font-poppins"
+                  className="mt-7 font-satoshi"
                 />
               </div>
             </article>
 
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Category
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -136,7 +136,7 @@ export function EditProductPage() {
             </article>
 
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Inventory
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -144,7 +144,7 @@ export function EditProductPage() {
                   type="number"
                   label="Quantity"
                   placeholder="#items available in stock"
-                  className="font-poppins"
+                  className="font-satoshi"
                   labelPlacement="outside"
                   variant="bordered"
                   name="quantity"
@@ -157,7 +157,7 @@ export function EditProductPage() {
             </article>
 
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Pricing
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -181,7 +181,7 @@ export function EditProductPage() {
             </article>
 
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Versions
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -203,7 +203,7 @@ export function EditProductPage() {
 
           <section className="w-1/2">
             <article className="mb-10">
-              <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+              <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
                 Shipping and delivery
               </h6>
               <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -223,7 +223,7 @@ export function EditProductPage() {
                     </div>
                   }
                 />
-                <p className="my-5 font-poppins text-[#3E3E3E] text-[10px] font-medium">
+                <p className="my-5 font-satoshi text-[#3E3E3E] text-[10px] font-medium">
                   Package Size (The package use to ship the product)
                 </p>
 
@@ -284,7 +284,7 @@ export function EditProductPage() {
               </div>
             </article>
             <div className="flex justify-center items">
-              <button className="font-poppins px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">
+              <button className="font-satoshi px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">
                 Save Changes
               </button>
             </div>
