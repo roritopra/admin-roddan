@@ -14,6 +14,7 @@ import {
   Select,
   SelectItem,
   Image,
+  Spinner,
 } from "@nextui-org/react";
 import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
 import { NavLink } from "react-router-dom";
@@ -24,6 +25,7 @@ import { Modal } from "../../../components/Modal/Modal";
 export function NewProductPage() {
   const [showMessage, setShowMessage] = useState(false);
   const [imageURLs, setImageURLs] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -47,14 +49,13 @@ export function NewProductPage() {
     formData.set("colors", formData.get("colors").split(","));
 
     if (window.confirm("Are you sure you want to add this product?")) {
-      setShowMessage(true);
       console.log(formData);
     } else {
       return;
     }
 
     const storage = getStorage();
-    const uploaded = Array.from({ length: formData.getAll('images').length });
+    const uploaded = Array.from({ length: formData.getAll("images").length });
 
     formData.getAll("images").forEach((image, index) => {
       const storageRef = ref(storage, "images" + image.name);
@@ -62,8 +63,16 @@ export function NewProductPage() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          let progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(`Upload image ${index + 1} is ${progress}% done`);
+          setProgress(progress);
+          if (progress === 100) {
+            setTimeout(() => {
+              setProgress(0);
+              setShowMessage(true);
+            }, 2000);
+          }
         },
         (error) => {
           console.error(error);
@@ -111,6 +120,17 @@ export function NewProductPage() {
           </NavLink>
         </div>
       </Modal>
+      {progress > 0 && (
+        <div className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <Spinner
+            className="font-poppins text-white"
+            label="Loading..."
+            size="lg"
+labelColor="defaultg"
+            color="default"
+          />
+        </div>
+      )}
       <NavLink to={"/products"} className="flex items-center gap-3 mb-10">
         <Button
           isIconOnly
