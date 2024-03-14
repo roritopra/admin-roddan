@@ -90,6 +90,7 @@ export function NewProductPage() {
               console.log("Files available at", urls.join(", "));
               const data = Object.fromEntries(formData);
               data.images = urls;
+              data.colors = data.colors.split(',')
               addDoc(projectsCollection, data);
               console.log(data);
             } catch (error) {
