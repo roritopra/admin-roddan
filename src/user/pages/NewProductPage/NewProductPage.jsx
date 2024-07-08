@@ -14,6 +14,7 @@ import {
   Select,
   SelectItem,
   Image,
+  Spinner,
 } from "@nextui-org/react";
 import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
 import { NavLink } from "react-router-dom";
@@ -24,6 +25,7 @@ import { Modal } from "../../../components/Modal/Modal";
 export function NewProductPage() {
   const [showMessage, setShowMessage] = useState(false);
   const [imageURLs, setImageURLs] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   const handleImageChange = (e) => {
     const files = e.target.files;
@@ -47,14 +49,13 @@ export function NewProductPage() {
     formData.set("colors", formData.get("colors").split(","));
 
     if (window.confirm("Are you sure you want to add this product?")) {
-      setShowMessage(true);
       console.log(formData);
     } else {
       return;
     }
 
     const storage = getStorage();
-    const uploaded = Array.from({ length: formData.getAll('images').length });
+    const uploaded = Array.from({ length: formData.getAll("images").length });
 
     formData.getAll("images").forEach((image, index) => {
       const storageRef = ref(storage, "images" + image.name);
@@ -62,8 +63,16 @@ export function NewProductPage() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          let progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(`Upload image ${index + 1} is ${progress}% done`);
+          setProgress(progress);
+          if (progress === 100) {
+            setTimeout(() => {
+              setProgress(0);
+              setShowMessage(true);
+            }, 2000);
+          }
         },
         (error) => {
           console.error(error);
@@ -81,6 +90,7 @@ export function NewProductPage() {
               console.log("Files available at", urls.join(", "));
               const data = Object.fromEntries(formData);
               data.images = urls;
+              data.colors = data.colors.split(',')
               addDoc(projectsCollection, data);
               console.log(data);
             } catch (error) {
@@ -97,12 +107,12 @@ export function NewProductPage() {
       <Header pageName="New Product" />
       <Modal show={showMessage} onClose={() => setShowMessage(false)}>
         <div className="flex flex-col items-center justify-center p-6">
-          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          <h1 className="font-satoshi text-[#151D48] text-2xl font-semibold mb-8">
             Product added successfully
           </h1>
           <NavLink to={"/products"}>
             <Button
-              className="bg-[#0081FE] font-poppins text-white font-medium"
+              className="bg-[#0081FE] font-satoshi text-white font-medium"
               size="lg"
               endContent={<ArrowLongLeftIcon />}
             >
@@ -111,6 +121,17 @@ export function NewProductPage() {
           </NavLink>
         </div>
       </Modal>
+      {progress > 0 && (
+        <div className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <Spinner
+            className="font-satoshi text-white"
+            label="Loading..."
+            size="lg"
+labelColor="defaultg"
+            color="default"
+          />
+        </div>
+      )}
       <NavLink to={"/products"} className="flex items-center gap-3 mb-10">
         <Button
           isIconOnly
@@ -120,7 +141,7 @@ export function NewProductPage() {
         >
           <ArrowLongLeftIcon />
         </Button>
-        <div className="font-poppins">
+        <div className="font-satoshi">
           <span className="text-[#7A7A7A] text-sm">Back to products</span>
           <p className="text-[#151D48] font-semibold text-xl">
             Add New Product
@@ -131,7 +152,7 @@ export function NewProductPage() {
       <form onSubmit={handleUpload} className="flex gap-5" action="">
         <section className="w-1/2">
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Description
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -143,7 +164,7 @@ export function NewProductPage() {
                 label="Product name"
                 placeholder="Enter the name of the product"
                 labelPlacement="outside"
-                className="font-poppins"
+                className="font-satoshi"
               />
               <Textarea
                 variant="bordered"
@@ -152,13 +173,13 @@ export function NewProductPage() {
                 labelPlacement="outside"
                 label="Description"
                 placeholder="Enter your description"
-                className="mt-7 font-poppins"
+                className="mt-7 font-satoshi"
               />
             </div>
           </article>
 
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Category
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -180,7 +201,7 @@ export function NewProductPage() {
           </article>
 
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Inventory
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -189,7 +210,7 @@ export function NewProductPage() {
                 isRequired
                 label="Quantity"
                 placeholder="#items available in stock"
-                className="font-poppins"
+                className="font-satoshi"
                 labelPlacement="outside"
                 variant="bordered"
                 name="quantity"
@@ -198,7 +219,7 @@ export function NewProductPage() {
           </article>
 
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Pricing
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -219,7 +240,7 @@ export function NewProductPage() {
           </article>
 
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Versions
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -238,7 +259,7 @@ export function NewProductPage() {
 
         <section className="w-1/2">
           <article>
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Product images
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -264,12 +285,12 @@ export function NewProductPage() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold font-poppins">
+                      <span className="font-semibold font-satoshi">
                         Click to upload
                       </span>{" "}
                       or drag and drop
                     </p>
-                    <p className="text-xs font-poppins text-gray-500 dark:text-gray-400">
+                    <p className="text-xs font-satoshi text-gray-500 dark:text-gray-400">
                       SVG, PNG, JPG or GIF (MAX. 800x400px)
                     </p>
                   </div>
@@ -294,7 +315,7 @@ export function NewProductPage() {
           </div>
 
           <article className="mb-10">
-            <h6 className="mb-2 font-poppins text-[#3E3E3E] text-[19px] font-medium">
+            <h6 className="mb-2 font-satoshi text-[#3E3E3E] text-[19px] font-medium">
               Shipping and delivery
             </h6>
             <div className="border-[#E4E4E7] border-1.5 rounded-[9px] p-4">
@@ -311,7 +332,7 @@ export function NewProductPage() {
                   </div>
                 }
               />
-              <p className="my-5 font-poppins text-[#3E3E3E] text-[10px] font-medium">
+              <p className="my-5 font-satoshi text-[#3E3E3E] text-[10px] font-medium">
                 Package Size (The package use to ship the product)
               </p>
 
@@ -363,7 +384,7 @@ export function NewProductPage() {
             </div>
           </article>
           <div className="flex justify-center items">
-            <button className="font-poppins px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">
+            <button className="font-satoshi px-5 py-4 rounded-lg text-white bg-[#0081FE] hover:bg-[#007ffed7] transition-all">
               Add product
             </button>
           </div>
