@@ -15,7 +15,7 @@ module.exports = withMT({
   theme: {
     extend: {},
     fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
+      satoshi: ["Satoshi", "sans-serif"],
     },
   },
   darkMode: "class",
