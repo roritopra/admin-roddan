@@ -3,9 +3,18 @@ import { NavLink } from "react-router-dom";
 import { menuLinks } from "./menuLinks";
 import { Card, List } from "@material-tailwind/react";
 import { Button } from "@nextui-org/react";
-import './NavBar.css';
+import "./NavBar.css";
+import { useContext } from "react";
+import { authContext } from "../../auth/AuthContext";
+import { SignOutIcon } from "./NavIcons/SignOutIcon";
 
 export function NavBar() {
+  const { logout } = useContext(authContext);
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <nav className="flex">
       <Card className="h-full w-full max-w-[18rem] p-4 shadow-xl shadow-white">
@@ -29,6 +38,15 @@ export function NavBar() {
               {menu.text}
             </NavLink>
           ))}
+          <NavLink
+            onClick={handleLogout}
+            className="font-satoshi flex items-center mb-2 p-3 rounded-xl transition-all text-[#737791] hover:bg-[#D4EAFF]"
+          >
+            <div className="grid place-items-center mr-4">
+              <SignOutIcon />
+            </div>
+            Sign out
+          </NavLink>
         </List>
         <section className="relative mt-36 flex flex-col items-center justify-center bg-gradient rounded-2xl p-10">
           <img
@@ -36,11 +54,15 @@ export function NavBar() {
             src="/icons/solo-logo.png"
             alt="Brand"
           />
-          <h2 className="font-satoshi text-white font-semibold mb-5 text-xl">Roddan</h2>
+          <h2 className="font-satoshi text-white font-semibold mb-5 text-xl">
+            Roddan
+          </h2>
           <p className="font-satoshi text-white text-center px-4 mb-7 text-sm">
             Dont forget save the tasks when is completed
           </p>
-          <Button className="bg-white text-[#0081FE] font-semibold font-satoshi px-10 text-lg">Orders</Button>
+          <Button className="bg-white text-[#0081FE] font-semibold font-satoshi px-10 text-lg">
+            Orders
+          </Button>
         </section>
       </Card>
       <Outlet />

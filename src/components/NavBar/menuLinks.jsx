@@ -36,10 +36,4 @@ export const menuLinks = [
     text: "Admins",
     url: "/admins",
   },
-  {
-    id: 6,
-    icon: <SignOutIcon />,
-    text: "Sign Out",
-    url: "/signout",
-  },
 ];

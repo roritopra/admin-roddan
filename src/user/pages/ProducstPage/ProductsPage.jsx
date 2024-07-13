@@ -11,16 +11,17 @@ import {
   Pagination,
   Button,
 } from "@nextui-org/react";
+import { useCallback, useState, useMemo, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+
 import { EditIcon } from "./EditIcon";
 import { ArrowLongLeftIcon } from "../NewProductPage/ArrowLongLeftIcon";
 import { DeleteIcon } from "./DeleteIcon";
 import { EyeIcon } from "./EyeIcon";
 import { PlusIcon } from "./PlusIcon";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { database } from "../../../firebase/firebase";
 import { columns } from "../../../data/columns";
-import { useCallback, useState, useMemo, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 import { Modal } from "../../../components/Modal/Modal";
 

@@ -4,9 +4,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { database } from "../../../firebase/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { Header } from "../../../components/Header/Header";
 import {
   Button,
   Input,
@@ -16,11 +14,14 @@ import {
   Image,
   Spinner,
 } from "@nextui-org/react";
-import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
-import { NavLink } from "react-router-dom";
-import { category } from "../../../data/category";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
+import { ArrowLongLeftIcon } from "./ArrowLongLeftIcon";
+import { category } from "../../../data/category";
 import { Modal } from "../../../components/Modal/Modal";
+import { Header } from "../../../components/Header/Header";
+import { database } from "../../../firebase/firebase";
 
 export function NewProductPage() {
   const [showMessage, setShowMessage] = useState(false);
@@ -90,7 +91,7 @@ export function NewProductPage() {
               console.log("Files available at", urls.join(", "));
               const data = Object.fromEntries(formData);
               data.images = urls;
-              data.colors = data.colors.split(',')
+              data.colors = data.colors.split(",");
               addDoc(projectsCollection, data);
               console.log(data);
             } catch (error) {
@@ -127,7 +128,7 @@ export function NewProductPage() {
             className="font-satoshi text-white"
             label="Loading..."
             size="lg"
-labelColor="defaultg"
+            labelColor="defaultg"
             color="default"
           />
         </div>
