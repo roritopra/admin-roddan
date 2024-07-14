@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+//import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAbepwmY1CcyJKGIg4Qo7utTkI1WdcNezc",
@@ -14,5 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+
+//export const provider = new GoogleAuthProvider();
 
 export const database = getFirestore(app);

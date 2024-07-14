@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/react";
 import { useAuth } from "../../hooks/useAuth";
 
 export function RegisterPagePage() {
-  const { register, setEmail, setPassword, errorMessage } = useAuth();
+  const { register, setEmail, setPassword, setName, setLastName, errorMessage } = useAuth();
 
   async function handleSignUp(e) {
     e.preventDefault();
@@ -20,6 +20,30 @@ export function RegisterPagePage() {
           </p>
         </div>
         {errorMessage && <p>{errorMessage}</p>}
+        <Input
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          isRequired
+          type="text"
+          variant="bordered"
+          label="Name"
+          placeholder="Enter your name"
+          labelPlacement="outside"
+          className="font-satoshi mb-6"
+        />
+        <Input
+          onChange={(e) => {
+            setLastName(e.target.value);
+          }}
+          isRequired
+          type="text"
+          variant="bordered"
+          label="Last Name"
+          placeholder="Enter your last name"
+          labelPlacement="outside"
+          className="font-satoshi mb-6"
+        />
         <Input
           onChange={(e) => {
             setEmail(e.target.value);

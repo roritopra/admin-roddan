@@ -1,15 +1,19 @@
 import { Input } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 export function LoginPage() {
-  const { login, setEmail, setPassword, errorMessage } = useAuth();
+  const { login, setEmail, setPassword, errorMessage /*providerLogin*/ } = useAuth();
 
   async function handleSignIn(e) {
     e.preventDefault();
     login();
   }
+
+  /*const handleProviderLogin = () => {
+    providerLogin();
+  };
+  */
 
   return (
     <main className="flex w-full h-full bg-[#F9FAFB]">
@@ -53,6 +57,12 @@ export function LoginPage() {
         >
           Login
         </Button>
+        {/*  <Button
+          onClick={handleProviderLogin}
+          className="font-satoshi w-full bg-[#0081FE] text-white"
+        >
+          Google
+        </Button> */}
       </section>
       <section className="w-1/2">
         <video
