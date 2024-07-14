@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+//import { signInWithPopup } from "firebase/auth";
+import { auth, database } from "../firebase/firebase";
+//import { provider } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
@@ -12,6 +15,8 @@ export const authContext = createContext();
 export function AuthContext({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,6 +35,23 @@ export function AuthContext({ children }) {
       if (unsubscribe) unsubscribe();
     };
   }, []);
+
+  /* Provider logn
+  const providerLogin = () => {
+    signInWithPopup(auth, provider) 
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setUser(user); 
+        navigate("/"); 
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        setErrorMessage(errorMessage);
+        console.error("Error during provider authentication", errorCode, errorMessage);
+      });
+  };
+  */
 
   const login = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -52,8 +74,13 @@ export function AuthContext({ children }) {
   };
 
   const register = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password, name)
       .then((user) => {
+        setDoc(doc(database, "Users", user.user.uid), {
+          name: name,
+          lastName: lastName,
+          email: email,
+        });
         console.log(user);
         navigate("/");
       })
@@ -86,8 +113,13 @@ export function AuthContext({ children }) {
     setUser,
     login,
     register,
+    name,
+    setName,
+    lastName,
+    setLastName,
     email,
     setEmail,
+    //providerLogin,
     password,
     setPassword,
     errorMessage,
