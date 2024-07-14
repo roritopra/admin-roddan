@@ -76,7 +76,7 @@ export function AuthContext({ children }) {
   const register = () => {
     createUserWithEmailAndPassword(auth, email, password, name)
       .then((user) => {
-        setDoc(doc(database, "Users", user.user.uid), {
+        setDoc(doc(database, "Admins", user.user.uid), {
           name: name,
           lastName: lastName,
           email: email,
