@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 //import { signInWithPopup } from "firebase/auth";
 import { auth, database } from "../firebase/firebase";
 //import { provider } from "../firebase/firebase";
