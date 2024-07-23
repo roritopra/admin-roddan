@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/react";
 import "./NavBar.css";
 import { useContext } from "react";
 import { authContext } from "../../auth/AuthContext";
-import { SignOutIcon } from "./NavIcons/SignOutIcon";
+import { SignOutIcon } from "../Icons/SignOutIcon";
 
 export function NavBar() {
   const { logout } = useContext(authContext);

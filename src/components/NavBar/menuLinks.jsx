@@ -1,9 +1,8 @@
-import { DashboardIcon } from "./NavIcons/DashboardIcon";
-import { ProductIcon } from "./NavIcons/ProductIcon"; 
-import { OrderIcon } from "./NavIcons/OrderIcon";
-import { UserIcon } from "./NavIcons/UserIcon";
-import { AdminIcon } from "./NavIcons/AdminIcon";
-import { SignOutIcon } from "./NavIcons/SignOutIcon";
+import { DashboardIcon } from "../Icons/DashboardIcon";
+import { ProductIcon } from "../Icons/ProductIcon"; 
+import { OrderIcon } from "../Icons/OrderIcon";
+import { UserIcon } from "../Icons/UserIcon";
+import { AdminIcon } from "../Icons/AdminIcon";
 
 export const menuLinks = [
   {

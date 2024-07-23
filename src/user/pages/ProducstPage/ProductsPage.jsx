@@ -15,11 +15,11 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
-import { EditIcon } from "./EditIcon";
+import { EditIcon } from "../../../components/Icons/EditIcon";
 import { ArrowLongLeftIcon } from "../NewProductPage/ArrowLongLeftIcon";
-import { DeleteIcon } from "./DeleteIcon";
-import { EyeIcon } from "./EyeIcon";
-import { PlusIcon } from "./PlusIcon";
+import { DeleteIcon } from "../../../components/Icons/DeleteIcon";
+import { EyeIcon } from "../../../components/Icons/EyeIcon";
+import { PlusIcon } from "../../../components/Icons/PlusIcon";
 import { database } from "../../../firebase/firebase";
 import { columns } from "../../../data/columns";
 import { Header } from "../../../components/Header/Header";
@@ -56,9 +56,9 @@ export function ProductsPage() {
   }, []);
 
   const deleteProduct = async (productId) => {
-    const productRef = doc(database, "products", productId);
-    await deleteDoc(productRef);
-    if (window.confirm("Are you sure you want delete the product?")) {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      const productRef = doc(database, "products", productId);
+      await deleteDoc(productRef);
       setIsDeleted(true);
     } else {
       return;
@@ -87,7 +87,7 @@ export function ProductsPage() {
       case "title":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize font-poppins">
+            <p className="text-bold text-sm capitalize font-satoshi">
               {cellValue}
             </p>
           </div>
@@ -95,7 +95,7 @@ export function ProductsPage() {
       case "price":
         return (
           <div className="flex flex-col">
-            <p className="font-semibold text-sm text-[#11181C] capitalize font-poppins">
+            <p className="font-semibold text-sm text-[#11181C] capitalize font-satoshi">
               $ {cellValue}
             </p>
           </div>
@@ -105,7 +105,7 @@ export function ProductsPage() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip className="font-poppins" content="Details">
+            <Tooltip className="font-satoshi" content="Details">
               <span
                 onClick={() => handleProductClick(product)}
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -113,7 +113,7 @@ export function ProductsPage() {
                 <EyeIcon />
               </span>
             </Tooltip>
-            <Tooltip className="font-poppins" content="Edit product">
+            <Tooltip className="font-satoshi" content="Edit product">
             <Link to={`/products/edit-product/${product.key}`}>
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
@@ -121,7 +121,7 @@ export function ProductsPage() {
             </Link>
             </Tooltip>
             <Tooltip
-              className="font-poppins"
+              className="font-satoshi"
               color="danger"
               content="Delete product"
             >
@@ -149,12 +149,12 @@ export function ProductsPage() {
         onClose={() => setIsDeleted(false)}
       >
         <div className="flex flex-col items-center justify-center p-6">
-          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          <h1 className="font-satoshi text-[#151D48] text-2xl font-semibold mb-8">
             Product Deleted
           </h1>
           <NavLink to={"/products"}>
             <Button
-              className="bg-[#0081FE] font-poppins text-white font-medium"
+              className="bg-[#0081FE] font-satoshi text-white font-medium"
               size="lg"
               endContent={<ArrowLongLeftIcon />}
             >
@@ -170,32 +170,32 @@ export function ProductsPage() {
         onClose={showProductsDetails}
       >
         <div className="flex flex-col items-center justify-center p-6">
-          <h1 className="font-poppins text-[#151D48] text-2xl font-semibold mb-8">
+          <h1 className="font-satoshi text-[#151D48] text-2xl font-semibold mb-8">
             Product Details
           </h1>
           <div className="flex flex-col w-full gap-4">
             <div className="flex flex-col w-full gap-4">
               <div className="flex flex-col w-full gap-2">
-                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                <p className="font-satoshi text-[#151D48] text-lg font-semibold">
                   Product Name
                 </p>
-                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                <p className="font-satoshi text-[#151D48] text-lg font-normal">
                   {selectedProduct?.title}
                 </p>
               </div>
               <div className="flex flex-col w-full gap-2">
-                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                <p className="font-satoshi text-[#151D48] text-lg font-semibold">
                   Product Price
                 </p>
-                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                <p className="font-satoshi text-[#151D48] text-lg font-normal">
                   ${selectedProduct?.price}
                 </p>
               </div>
               <div className="flex flex-col w-full gap-2">
-                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                <p className="font-satoshi text-[#151D48] text-lg font-semibold">
                   Product Description
                 </p>
-                <p className="font-poppins text-[#151D48] text-lg max-w-sm font-normal">
+                <p className="font-satoshi text-[#151D48] text-lg max-w-sm font-normal">
                   {selectedProduct?.description === null
                     ? "No description"
                     : selectedProduct?.description.length > 50
@@ -204,18 +204,18 @@ export function ProductsPage() {
                 </p>
               </div>
               <div className="flex flex-col w-full gap-2">
-                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                <p className="font-satoshi text-[#151D48] text-lg font-semibold">
                   Product Category
                 </p>
-                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                <p className="font-satoshi text-[#151D48] text-lg font-normal">
                   {selectedProduct?.category}
                 </p>
               </div>
               <div className="flex flex-col w-full gap-2">
-                <p className="font-poppins text-[#151D48] text-lg font-semibold">
+                <p className="font-satoshi text-[#151D48] text-lg font-semibold">
                   Product Color
                 </p>
-                <p className="font-poppins text-[#151D48] text-lg font-normal">
+                <p className="font-satoshi text-[#151D48] text-lg font-normal">
                   {selectedProduct?.colors}
                 </p>
               </div>
@@ -227,7 +227,7 @@ export function ProductsPage() {
       <div>
         <NavLink to={"new-product"}>
           <Button
-            className="bg-[#0081FE] mb-6 font-poppins text-white"
+            className="bg-[#0081FE] mb-6 font-satoshi text-white"
             endContent={<PlusIcon />}
           >
             Add New Product
@@ -240,7 +240,7 @@ export function ProductsPage() {
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination
-              className="font-poppins"
+              className="font-satoshi"
               isCompact
               showControls
               showShadow
@@ -255,7 +255,7 @@ export function ProductsPage() {
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
-              className="font-poppins"
+              className="font-satoshi"
               key={column.uid}
               align={column.uid === "actions" ? "center" : "start"}
             >
