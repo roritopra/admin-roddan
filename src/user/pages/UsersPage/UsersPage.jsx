@@ -36,10 +36,11 @@ export function UsersPage() {
     })();
   }, []);
 
-  const deleteProduct = async (userId) => {
+  const deleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      const userRef = doc(database, "Admins", userId);
+      const userRef = doc(database, "Clients", userId);
       await deleteDoc(userRef);
+      setUsers((prevUsers) => prevUsers.filter((user) => user.key !== userId)); 
     } else {
       return;
     }
@@ -52,19 +53,11 @@ export function UsersPage() {
     return users.slice(start, end);
   }, [page, users]);
 
-  const renderCell = useCallback((product, columnKey) => {
-    const cellValue = product[columnKey];
+  const renderCell = useCallback((user, columnKey) => {
+    const cellValue = user[columnKey];
 
     switch (columnKey) {
       case "name":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize font-satoshi">
-              {cellValue}
-            </p>
-          </div>
-        );
-      case "title":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm capitalize font-satoshi">
@@ -91,7 +84,7 @@ export function UsersPage() {
               content="Delete user"
             >
               <span
-                onClick={() => deleteProduct(product.key)}
+                onClick={() => deleteUser(user.key)}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
               >
                 <DeleteIcon />

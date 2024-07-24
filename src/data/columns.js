@@ -23,7 +23,6 @@ export { columnsClients };
 
 const columnsAdmins = [
   { name: "ADMIN", uid: "name" },
-  { name: "DATE", uid: "date" },
   { name: "STATUS", uid: "status" },
   { name: "ACTIONS", uid: "actions" },
 ];

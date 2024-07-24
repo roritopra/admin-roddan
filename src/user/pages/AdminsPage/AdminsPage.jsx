@@ -44,6 +44,7 @@ export function AdminsPage() {
     if (window.confirm("Are you sure you want to delete this admin?")) {
       const adminRef = doc(database, "Admins", adminId);
       await deleteDoc(adminRef);
+      setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin.key !== adminId));
     } else {
       return;
     }
@@ -58,8 +59,6 @@ export function AdminsPage() {
 
   const renderCell = useCallback((admin, columnKey) => {
     const cellValue = admin[columnKey];
-    const date = new Date(cellValue);
-    const formattedDate = date.toLocaleString();
 
     switch (columnKey) {
       case "name":
@@ -79,14 +78,6 @@ export function AdminsPage() {
             {admin.email}
           </User>
         );
-      case "date":
-        return (
-          <div className="flex flex-col">
-            <p className="font-semibold text-sm text-[#11181C] capitalize font-satoshi">
-              {formattedDate}
-            </p>
-          </div>
-        );
       case "status":
         return <Switch defaultSelected aria-label="Status" />;
       case "actions":
@@ -99,7 +90,7 @@ export function AdminsPage() {
             >
               <span
                 onClick={() => deleteAdmin(admin.key)}
-                className="text-lg text-danger cursor-pointer active:opacity-50"
+                className="text-lg p-3 transition-all hover:transition-all hover:bg-[#FFD3E3] rounded-full text-danger cursor-pointer active:opacity-50"
               >
                 <DeleteIcon />
               </span>
