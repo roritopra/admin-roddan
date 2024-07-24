@@ -80,6 +80,7 @@ export function AuthContext({ children }) {
           name: name,
           lastName: lastName,
           email: email,
+          date: new Date(), 
         });
         console.log(user);
         navigate("/");

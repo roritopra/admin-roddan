@@ -29,8 +29,8 @@ export function UsersPage() {
       const usersCollection = collection(database, "Clients");
       const usersSnapshot = await getDocs(usersCollection);
       const usersList = [];
-      usersSnapshot.forEach((project) => {
-        usersList.push({ key: project.id, ...project.data() });
+      usersSnapshot.forEach((user) => {
+        usersList.push({ key: user.id, ...user.data() });
       });
       setUsers(usersList);
     })();
@@ -38,7 +38,7 @@ export function UsersPage() {
 
   const deleteProduct = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      const userRef = doc(database, "products", userId);
+      const userRef = doc(database, "Admins", userId);
       await deleteDoc(userRef);
     } else {
       return;
