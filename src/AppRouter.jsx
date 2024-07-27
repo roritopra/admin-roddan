@@ -17,8 +17,15 @@ export function AppRouter() {
     <Routes>
       <Route path="/*" element={<PageNotFound />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPagePage />} />
 
+      <Route
+        path="/register"
+        element={
+          <PrivateRouter>
+            <RegisterPagePage />
+          </PrivateRouter>
+        }
+      />
       <Route
         path="/"
         element={

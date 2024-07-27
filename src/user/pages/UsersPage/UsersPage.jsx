@@ -85,7 +85,7 @@ export function UsersPage() {
             >
               <span
                 onClick={() => deleteUser(user.key)}
-                className="text-lg text-danger cursor-pointer active:opacity-50"
+                className="text-lg p-3 transition-all hover:transition-all hover:bg-[#FFD3E3] rounded-full text-danger cursor-pointer active:opacity-50"
               >
                 <DeleteIcon />
               </span>

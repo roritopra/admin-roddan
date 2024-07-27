@@ -44,7 +44,9 @@ export function AdminsPage() {
     if (window.confirm("Are you sure you want to delete this admin?")) {
       const adminRef = doc(database, "Admins", adminId);
       await deleteDoc(adminRef);
-      setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin.key !== adminId));
+      setAdmins((prevAdmins) =>
+        prevAdmins.filter((admin) => admin.key !== adminId)
+      );
     } else {
       return;
     }
@@ -59,6 +61,7 @@ export function AdminsPage() {
 
   const renderCell = useCallback((admin, columnKey) => {
     const cellValue = admin[columnKey];
+    const date = new Date(cellValue).toLocaleDateString();
 
     switch (columnKey) {
       case "name":
@@ -77,6 +80,12 @@ export function AdminsPage() {
           >
             {admin.email}
           </User>
+        );
+      case "date":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize font-satoshi">{date}</p>
+          </div>
         );
       case "status":
         return <Switch defaultSelected aria-label="Status" />;
