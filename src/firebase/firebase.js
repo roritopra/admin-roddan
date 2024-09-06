@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 //import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAbepwmY1CcyJKGIg4Qo7utTkI1WdcNezc",
-  authDomain: "ecommerce-roddan.firebaseapp.com",
-  projectId: "ecommerce-roddan",
-  storageBucket: "ecommerce-roddan.appspot.com",
-  messagingSenderId: "1067096339828",
-  appId: "1:1067096339828:web:cb0c0b8d43ae450f32e821",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_API_ID,
 };
 
 const app = initializeApp(firebaseConfig);
